@@ -8,7 +8,6 @@ class NameProcessor extends Model
 {
     public function processCsv($filePath)
     {
-        $deletePath = $filePath;
         $filePath = file($filePath);
         array_shift($filePath); // Exclude table header
 
@@ -19,6 +18,7 @@ class NameProcessor extends Model
 
             $names = explode('and', $line);
 
+            // checking if its single or multi owners
             if (count($names) === 1) {
                 $person = $this->storeNameToArray(trim($names[0]));
                 $namesArray[] = $person;
@@ -42,7 +42,8 @@ class NameProcessor extends Model
         return $namesArray;
     }
 
-    private function storeNameToArray($name)
+    //assign single name to correct format
+    public function storeNameToArray($name)
     {
         $nameParts = array_filter(explode(' ', trim($name)));
 
@@ -77,10 +78,4 @@ class NameProcessor extends Model
         }
     }
 
-    public function displayData($data)
-    {
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-    }
 }
